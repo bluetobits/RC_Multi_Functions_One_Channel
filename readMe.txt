@@ -6,10 +6,11 @@ Multiple devices from one RC channel. This example is for lighting and a pump fo
 
 
  This monitors a 3 position switch on an auxiliary RC channel.
- Originally written to control cabin lights and fire water cannons on a model boat from Aux channel 3.
+ Originally written to control cabin lights searchlight, searchlight servo and fire water cannons on a model boat from Aux channel 3.
+Searchlight requires a simple mod to the transmitter 
 
 
-2 devices on one channel (named WATER and LIGHTS here)
+4 devices on one channel (named WATER, SEARCHLIGHT serchServo and LIGHTS here)
 Water channel has pre-set PWM level, 
 LIGHTS channel has remote changable variable PWM level 
  Setup:
