@@ -1,6 +1,8 @@
 ﻿BoatRXdim.ino
 Multiple devices from one RC channel. This example is for lighting and a pump for a model RC boat
 
+Demo video at
+https://youtu.be/tgMq2s-s6As
 
  Multiple functions from auxiliary RC channel (3) Steve Lomax 2023 free for personal use only. 
 
