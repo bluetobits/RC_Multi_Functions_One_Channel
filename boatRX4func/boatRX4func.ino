@@ -60,10 +60,10 @@
 Servo searchServo;
 const int INPIN = 2;   // must be interrupt capable
 const int WATER = 6;   // Water Pin. PWM capable Water is RX low. while switch is down
-const int LIGHTS = 5;  // lights pin. PWM capable. toggle each time TX switch is up (TX - HIGH) for more than 0.5s
-const int SEARCHLIGHT = 3;
-const int SSERVOPIN = 4;
-const int FIXED_PWM = 80;  // 0 (off) to 255 (full) for water pump
+const int LIGHTS = 11;//5;  // lights pin. PWM capable. toggle each time TX switch is up (TX - HIGH) for more than 0.5s
+const int SEARCHLIGHT = 12;//3;
+const int SSERVOPIN = 3;
+const int FIXED_PWM = 90;  // 0 (off) to 255 (full) for water pump
 const int SERVO_SPEED = 6; // 1 (fast) to 10 (slow)
 const int LONG_PUSH_DURATION = 3000; // long push to initiate dimming or search scan mode (ms)
 
@@ -117,7 +117,16 @@ void setup() {
   searchServo.attach(SSERVOPIN);
 }
 
-
+//int potentiometer(){
+//  int pot = analogRead(A3);
+// // Serial.print("                          pot = ");
+//  //Serial.println(pot);
+//  pot = map (pot,0,1024, 1000, 2000);
+//  //Serial.print("                          map = ");
+//  //Serial.println(pot);
+//
+//  return pot;
+//}
 void initiate() {  // runs each time the pulse raises on pin 2
   pulseStarted = true;
 }
@@ -146,6 +155,7 @@ void output(int dur) {  // determine outputs from pulse dur(ation)
       Serial.print(" Water ON pulse = ");
       Serial.println(dur);
       waterStatus = 1;
+      //delay (1000);
     }
     //  >=1200 < 1400 water on & toggle searchlight (>THRESHOLD1 <THRESHOLD2)
     //  >=1400 < 1750 water off (>THRESHOLD2 <THRESHOLD3)
@@ -182,7 +192,7 @@ void output(int dur) {  // determine outputs from pulse dur(ation)
     if (lightsStatus) {
       if (millis() > switchOnTime + LONG_PUSH_DURATION) {               //switch has been up for more than 3 seconds
         if ((millis() - switchOnTime - LONG_PUSH_DURATION) % 2 == 0) {  //increase lights level by 2 every other iteration of the loop
-          lightsLevel += 2;
+          lightsLevel += 1;
           if (lightsLevel > 253) {
             switchOnTime = millis();  // re-set the timer to maintain full for 3 seconds
           }
@@ -269,9 +279,7 @@ void output(int dur) {  // determine outputs from pulse dur(ation)
         if (servoPos == 0) {
           servoRev = 0;
         }
-        searchServo.write(servoPos);
-        Serial.print("SERVO POSITION = ");
-        Serial.println(servoPos);
+        searchServo.write(servoPos); 
       }
     }
   } else {                     //button is released
@@ -292,6 +300,7 @@ void output(int dur) {  // determine outputs from pulse dur(ation)
 
 void loop() {
   int duration = interrogate();  // fetch pulse duration (0 = no pulse)
+ // if (duration==0) duration = potentiometer();
   if (duration > 0) {
     output(duration);  //send duration to output function
   }
